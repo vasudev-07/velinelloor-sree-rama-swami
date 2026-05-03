@@ -34,72 +34,24 @@ export default function RiverScrollProgress() {
     <div
       aria-hidden
       className="fixed right-2.5 top-0 bottom-0 z-30"
-      style={{ width: 32, pointerEvents: "none" }}
+      style={{ width: 4, pointerEvents: "none" }}
     >
-      <svg
-        viewBox="0 0 32 1000"
-        preserveAspectRatio="none"
-        width="32"
-        height="100%"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ display: "block" }}
-      >
-        <defs>
-          {/* River gradient — cyan at top, blue at bottom */}
-          <linearGradient id="riverGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%"   stopColor="#22d3ee" /> {/* cyan-400  */}
-            <stop offset="50%"  stopColor="#06b6d4" /> {/* cyan-500  */}
-            <stop offset="100%" stopColor="#2563eb" /> {/* blue-600  */}
-          </linearGradient>
+      {/* ── Dim background track ── */}
+      <div className="absolute inset-0 rounded-full" style={{ background: "rgba(6,182,212,0.10)" }} />
 
-          {/* Soft glow filter */}
-          <filter id="riverGlow" x="-80%" y="-5%" width="260%" height="110%">
-            <feGaussianBlur stdDeviation="2.5" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        {/* ── Dim background track (full path, always visible) ── */}
-        <path
-          d={RIVER_PATH}
-          fill="none"
-          stroke="rgba(6,182,212,0.10)"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeDasharray="6 8"
-        />
-
-        {/* ── Animated progress river ── */}
-        <motion.path
-          d={RIVER_PATH}
-          fill="none"
-          stroke="url(#riverGrad)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          filter="url(#riverGlow)"
-          style={{
-            pathLength,
-            opacity: glowOpacity,
-          }}
-        />
-
-        {/* ── Glowing dot at the leading edge ── */}
-        <motion.circle
-          r="3.5"
-          fill="#22d3ee"
-          filter="url(#riverGlow)"
-          style={{
-            opacity: glowOpacity,
-            // Position the dot at the scroll progress point along the path
-            // Done via offsetDistance on a matching path
-            offsetPath: `path('${RIVER_PATH}')`,
-            offsetDistance: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]),
-          }}
-        />
-      </svg>
+      {/* ── Animated progress river (hardware accelerated CSS) ── */}
+      <motion.div
+        className="absolute top-0 left-0 right-0 rounded-full bg-gradient-to-b from-cyan-400 via-cyan-500 to-blue-600"
+        style={{
+          scaleY: scrollYProgress,
+          transformOrigin: "top",
+          opacity: glowOpacity,
+          willChange: "transform",
+          transform: "translateZ(0)",
+          height: "100%",
+          boxShadow: "0 0 10px rgba(6, 182, 212, 0.5)",
+        }}
+      />
     </div>
   );
 }

@@ -307,17 +307,15 @@ function NoticeCard({ day, label, imagePath, index, isHighlighted, onOpen }: {
   day: number; label: string; imagePath: string;
   index: number; isHighlighted: boolean; onOpen: () => void;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "0px 0px -80px 0px" });
   const [hovered, setHovered] = useState(false);
 
   return (
     <motion.div
-      ref={ref}
       id={`notice-card-${day}`}
       initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] as any, delay: index * 0.05 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] as any, delay: Math.min(index * 0.05, 0.2) }}
       className="group flex flex-col w-full"
     >
       {/* ── Day badge row ── */}
@@ -348,7 +346,7 @@ function NoticeCard({ day, label, imagePath, index, isHighlighted, onOpen }: {
         onHoverStart={() => setHovered(true)}
         onHoverEnd={() => setHovered(false)}
         aria-label={`View ${label} notice`}
-        className="relative w-full overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+        className="relative w-full overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 max-md:!shadow-none max-md:!border-none"
         style={{
           borderRadius: 14,
           boxShadow: isHighlighted
@@ -375,7 +373,7 @@ function NoticeCard({ day, label, imagePath, index, isHighlighted, onOpen }: {
 
         {/* Gradient hover overlay */}
         <motion.div
-          className="absolute inset-0 flex flex-col items-center justify-end pb-8 gap-3"
+          className="absolute inset-0 hidden md:flex flex-col items-center justify-end pb-8 gap-3"
           animate={{ opacity: hovered ? 1 : 0 }}
           transition={{ duration: 0.25 }}
           style={{ background: "linear-gradient(to top, rgba(20,8,4,0.75) 0%, rgba(20,8,4,0.1) 50%, transparent 100%)" }}
@@ -429,7 +427,7 @@ export default function UlsavamSection() {
       <section
         id="ulsavam"
         aria-labelledby="ulsavam-heading"
-        className="w-full py-16 md:py-24 px-4 md:px-8"
+        className="w-full overflow-x-hidden py-16 md:py-24 px-4 md:px-8"
         style={{ background: "var(--cream)" }}
       >
         <div className="max-w-2xl mx-auto">

@@ -65,8 +65,6 @@ const panelVariants: any = {
     transition: {
       duration: 0.6,
       ease: [0.22, 1, 0.36, 1] as any,
-      when: "beforeChildren",
-      staggerChildren: 0.12,
     },
   },
   exit: { opacity: 0, scale: 0.97, y: 10, transition: { duration: 0.25, ease: "easeIn" } },
@@ -132,6 +130,7 @@ export default function HistoryModal({ isOpen, onClose }: HistoryModalProps) {
                 sm:w-full sm:max-w-2xl
                 bottom-[4vh] sm:max-h-[92vh] sm:bottom-auto
                 flex flex-col rounded-3xl overflow-hidden
+                max-md:!backdrop-blur-none max-md:!shadow-none max-md:!bg-zinc-900
               "
               style={{
                 backdropFilter: "blur(24px) saturate(160%)",
@@ -197,8 +196,11 @@ export default function HistoryModal({ isOpen, onClose }: HistoryModalProps) {
                 {SECTIONS.map((section, si) => (
                   <m.div
                     key={si}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
                     variants={sectionVariants}
-                    className="flex flex-col gap-4"
+                    className="flex flex-col gap-4 overflow-x-hidden"
                   >
                     {/* Section heading */}
                     <m.h3
