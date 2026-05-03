@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
+import { useMobile } from "@/hooks/useMobile";
 
 const HistoryModal = dynamic(
   () => import("@/components/HistoryModal"),
@@ -12,27 +13,18 @@ const HistoryModal = dynamic(
 const ENGLISH   = "Velinelloor Sree Rama Swami Temple";
 const MALAYALAM = "വെളിനല്ലൂർ ശ്രീരാമസ്വാമി ക്ഷേത്രം";
 
-
-
 export default function HeroSection() {
   const [isMalayalam, setIsMalayalam] = useState(false);
   const [modalOpen,   setModalOpen]   = useState(false);
-  const [isMobile,    setIsMobile]    = useState(false);
+  const isMobile = useMobile();
 
-  // Prevent heavy filters and complex easing on mobile GPUs
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile, { passive: true });
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  const dynamicVariants: any = {
-    enter:  { opacity: 0, y: 18, filter: isMobile ? "none" : "blur(6px)" },
-    center: { opacity: 1, y: 0,  filter: isMobile ? "none" : "blur(0px)",
-      transition: { duration: 0.55, ease: isMobile ? "easeOut" : ([0.22, 1, 0.36, 1] as any) } },
-    exit:   { opacity: 0, y: -14, filter: isMobile ? "none" : "blur(4px)",
-      transition: { duration: 0.3, ease: "easeIn" } },
+  // Variants: mobile strips blur, uses simple easing
+  const textVariants: any = {
+    enter:  { opacity: 0, y: 18 },
+    center: { opacity: 1, y: 0,
+      transition: { duration: 0.5, ease: "easeOut" } },
+    exit:   { opacity: 0, y: -14,
+      transition: { duration: 0.25, ease: "easeIn" } },
   };
 
   return (
@@ -65,16 +57,14 @@ export default function HeroSection() {
 
         {/* ── Om symbol ── */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.75 }}
+          initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as any }}
-          className="text-6xl select-none drop-shadow-sm"
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="text-6xl select-none"
           style={{
             color: "var(--gold)",
             fontFamily: "var(--font-ml)",
-            textShadow: "0 2px 12px rgba(201,150,42,0.25)",
-            transform: "translateZ(0)",
-            backfaceVisibility: "hidden"
+            textShadow: isMobile ? "none" : "0 2px 12px rgba(201,150,42,0.25)",
           }}
           aria-hidden
         >
@@ -87,17 +77,14 @@ export default function HeroSection() {
             {isMalayalam ? (
               <motion.h1
                 key="malayalam"
-                variants={dynamicVariants as any}
+                variants={textVariants}
                 initial="enter" animate="center" exit="exit"
                 className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-snug font-semibold cursor-pointer select-none px-2"
                 style={{
                   fontFamily: "var(--font-ml)",
                   color: "var(--maroon)",
                   letterSpacing: "0.01em",
-                  textShadow: "0 2px 16px rgba(123,34,48,0.08)",
                 }}
-                whileHover={{ scale: 1.015 }}
-                transition={{ duration: 0.2 }}
                 onClick={() => setIsMalayalam(false)}
                 title="Click to switch to English"
                 lang="ml"
@@ -107,16 +94,13 @@ export default function HeroSection() {
             ) : (
               <motion.h1
                 key="english"
-                variants={dynamicVariants as any}
+                variants={textVariants}
                 initial="enter" animate="center" exit="exit"
                 className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight font-light tracking-wide cursor-pointer select-none px-2"
                 style={{
                   fontFamily: "var(--font-serif)",
                   color: "var(--maroon)",
-                  textShadow: "0 2px 16px rgba(123,34,48,0.08)",
                 }}
-                whileHover={{ scale: 1.015 }}
-                transition={{ duration: 0.2 }}
                 onClick={() => setIsMalayalam(true)}
                 title="Click to view in Malayalam"
                 lang="en"
@@ -175,38 +159,24 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.55, ease: "easeOut" }}
         >
-          <motion.button
+          <button
             onClick={() => setModalOpen(true)}
             aria-label="Open temple history"
-            className="relative px-8 py-3.5 rounded-xl text-white text-sm tracking-widest uppercase font-medium overflow-hidden"
+            className="relative px-8 py-3.5 rounded-xl text-white text-sm tracking-widest uppercase font-medium overflow-hidden transition-transform active:scale-95"
             style={{
               background: "linear-gradient(135deg, #D4A017 0%, #B8860B 100%)",
               fontFamily: "var(--font-sans)",
               boxShadow: "0 4px 20px -4px rgba(212,160,23,0.55), 0 2px 8px rgba(0,0,0,0.10)",
               minHeight: "48px",
             }}
-            whileHover={{
-              scale: 1.04,
-              boxShadow: "0 8px 28px -4px rgba(212,160,23,0.70), 0 4px 12px rgba(0,0,0,0.12)",
-            }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
           >
-            <span
-              aria-hidden
-              className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500"
-              style={{
-                background:
-                  "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%)",
-              }}
-            />
             <span className="relative flex items-center gap-2">
               <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 shrink-0" aria-hidden>
                 <path fillRule="evenodd" d="M10.293 3.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414L14.586 11H3a1 1 0 1 1 0-2h11.586l-4.293-4.293a1 1 0 0 1 0-1.414z" clipRule="evenodd" />
               </svg>
               Discover Our Legendary History
             </span>
-          </motion.button>
+          </button>
         </motion.div>
 
         {/* ── Scroll cue ── */}

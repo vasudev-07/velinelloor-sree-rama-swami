@@ -15,7 +15,10 @@
   --ink:          #1A1410;
 }
 
-/* ─── Base Reset ───────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════
+   PILLAR 1 — MOBILE-FIRST STABILITY RESET
+   ═══════════════════════════════════════════════════════════════════ */
+
 *,
 *::before,
 *::after {
@@ -28,8 +31,11 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent overscroll bounce on iOS/Android */
+  overscroll-behavior: none;
   overscroll-behavior-y: none;
-  touch-action: manipulation;
+  /* Hide native scrollbar — replaced by River Progress */
+  scrollbar-width: none;
 }
 
 body {
@@ -37,6 +43,56 @@ body {
   color: var(--ink);
   line-height: 1.75;
   letter-spacing: 0.005em;
+  text-rendering: optimizeLegibility;
+  /* ── Layout Locking: kill horizontal bounce ── */
+  overflow-x: hidden;
+  /* ── Mobile scroll stability ── */
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  /* ── GPU layer promotion for body ── */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PILLAR 2 — GPU LAYER PROMOTION FOR ALL MAJOR SECTIONS
+   Force every section onto its own compositor layer so
+   animations within them never cause full-page repaints.
+   ═══════════════════════════════════════════════════════════════════ */
+
+section,
+header,
+footer,
+nav,
+main {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PILLAR 3 — MOBILE ANIMATION PRUNING
+   Strip expensive paint-triggering effects on <768px screens.
+   This is a CSS-level kill switch — no JS needed, zero latency.
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+  /* Kill backdrop-filter blur everywhere on mobile */
+  * {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Kill animated box-shadows — they trigger paint every frame */
+  .motion-shadow-none {
+    box-shadow: none !important;
+    transition: none !important;
+  }
+
+  /* Disable filter blur on mobile — opacity is sufficient */
+  [style*="blur"] {
+    filter: none !important;
+  }
 }
 
 /* ─── Selection highlight ─────────────────────────────────────── */
@@ -46,8 +102,7 @@ body {
 }
 
 /* ─── Scrollbar (hidden — replaced by River Scroll Progress) ───── */
-html                    { scrollbar-width: none; }   /* Firefox */
-body::-webkit-scrollbar { display: none; }           /* Chrome / Safari / Edge */
+body::-webkit-scrollbar { display: none; }
 
 /* ─── Golden scrollbar (modal) ─────────────────────────────── */
 .golden-scroll::-webkit-scrollbar        { width: 4px; }

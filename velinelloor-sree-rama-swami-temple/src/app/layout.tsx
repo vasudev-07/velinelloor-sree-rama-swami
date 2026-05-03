@@ -4,19 +4,23 @@ import {
   Inter,
   Noto_Sans_Malayalam,
 } from "next/font/google";
-import dynamic from "next/dynamic";
 import "./globals.css";
 import GoldenDustLoader from "@/components/GoldenDustLoader";
 import RiverProgressLoader from "@/components/RiverProgressLoader";
 
-/* ─── Fonts via next/font (avoids PostCSS @import conflict) ───── */
+/* ─── Fonts via next/font ──────────────────────────────────────────
+   display: "swap"   → prevents FOIT (Flash of Invisible Text)
+   fallback           → reserves correct glyph widths during load (CLS fix)
+   adjustFontFallback → Next.js auto-generates size-adjust CSS (CLS fix)
+   ──────────────────────────────────────────────────────────────── */
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
-  fallback: ["system-ui", "serif"],
+  fallback: ["Georgia", "Times New Roman", "serif"],
+  adjustFontFallback: true,
 });
 
 const inter = Inter({
@@ -24,7 +28,8 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
   variable: "--font-sans",
   display: "swap",
-  fallback: ["system-ui", "sans-serif"],
+  fallback: ["system-ui", "-apple-system", "sans-serif"],
+  adjustFontFallback: true,
 });
 
 const notoMalayalam = Noto_Sans_Malayalam({
@@ -33,6 +38,7 @@ const notoMalayalam = Noto_Sans_Malayalam({
   variable: "--font-ml",
   display: "swap",
   fallback: ["system-ui", "sans-serif"],
+  adjustFontFallback: true,
 });
 
 /* ─── SEO Metadata ─────────────────────────────────────────────── */
@@ -62,7 +68,7 @@ export default function RootLayout({
       lang="en"
       className={`${cormorant.variable} ${inter.variable} ${notoMalayalam.variable}`}
     >
-      <body className="min-h-screen antialiased [text-rendering:optimizeLegibility]">
+      <body className="min-h-screen antialiased">
         <GoldenDustLoader />
         <RiverProgressLoader />
         {children}

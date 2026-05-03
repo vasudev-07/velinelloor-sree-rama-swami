@@ -23,23 +23,25 @@ function GoldDivider() {
 export default function HomePage() {
   return (
     <>
-    <main>
-      <Navbar />
-      <HeroSection />
+      {/* overflow-x-hidden at the page level to lock horizontal bounce
+          from any animated element that overshoots viewport bounds */}
+      <main className="overflow-x-hidden">
+        <Navbar />
+        <HeroSection />
 
-      <GoldDivider />
-      <UlsavamSection />
+        <GoldDivider />
+        <UlsavamSection />
 
-      <GoldDivider />
-      <ContactSection />
+        <GoldDivider />
+        <ContactSection />
 
-      <GoldDivider />
-      <LocationSection />
+        <GoldDivider />
+        <LocationSection />
 
-      <GoldDivider />
-      <Footer />
-    </main>
-    <FloatingWhatsApp />
+        <GoldDivider />
+        <Footer />
+      </main>
+      <FloatingWhatsApp />
     </>
   );
 }
