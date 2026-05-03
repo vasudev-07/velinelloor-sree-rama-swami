@@ -15,7 +15,7 @@ const MALAYALAM = "വെളിനല്ലൂർ ശ്രീരാമസ്വ
 const textVariants: any = {
   enter:  { opacity: 0, y: 18, filter: "blur(6px)" },
   center: { opacity: 1, y: 0,  filter: "blur(0px)",
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as any } },
   exit:   { opacity: 0, y: -14, filter: "blur(4px)",
     transition: { duration: 0.3, ease: "easeIn" } },
 };
@@ -70,7 +70,7 @@ export default function HeroSection() {
             {isMalayalam ? (
               <motion.h1
                 key="malayalam"
-                variants={textVariants}
+                variants={textVariants as any}
                 initial="enter" animate="center" exit="exit"
                 className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-snug font-semibold cursor-pointer select-none px-2"
                 style={{
@@ -90,7 +90,7 @@ export default function HeroSection() {
             ) : (
               <motion.h1
                 key="english"
-                variants={textVariants}
+                variants={textVariants as any}
                 initial="enter" animate="center" exit="exit"
                 className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight font-light tracking-wide cursor-pointer select-none px-2"
                 style={{
