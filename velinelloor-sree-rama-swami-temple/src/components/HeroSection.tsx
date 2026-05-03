@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -12,17 +12,28 @@ const HistoryModal = dynamic(
 const ENGLISH   = "Velinelloor Sree Rama Swami Temple";
 const MALAYALAM = "വെളിനല്ലൂർ ശ്രീരാമസ്വാമി ക്ഷേത്രം";
 
-const textVariants: any = {
-  enter:  { opacity: 0, y: 18, filter: "blur(6px)" },
-  center: { opacity: 1, y: 0,  filter: "blur(0px)",
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as any } },
-  exit:   { opacity: 0, y: -14, filter: "blur(4px)",
-    transition: { duration: 0.3, ease: "easeIn" } },
-};
+
 
 export default function HeroSection() {
   const [isMalayalam, setIsMalayalam] = useState(false);
   const [modalOpen,   setModalOpen]   = useState(false);
+  const [isMobile,    setIsMobile]    = useState(false);
+
+  // Prevent heavy filters and complex easing on mobile GPUs
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile, { passive: true });
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const dynamicVariants: any = {
+    enter:  { opacity: 0, y: 18, filter: isMobile ? "none" : "blur(6px)" },
+    center: { opacity: 1, y: 0,  filter: isMobile ? "none" : "blur(0px)",
+      transition: { duration: 0.55, ease: isMobile ? "easeOut" : ([0.22, 1, 0.36, 1] as any) } },
+    exit:   { opacity: 0, y: -14, filter: isMobile ? "none" : "blur(4px)",
+      transition: { duration: 0.3, ease: "easeIn" } },
+  };
 
   return (
     <section
@@ -58,7 +69,13 @@ export default function HeroSection() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as any }}
           className="text-6xl select-none drop-shadow-sm"
-          style={{ color: "var(--gold)", fontFamily: "var(--font-ml)", textShadow: "0 2px 12px rgba(201,150,42,0.25)" }}
+          style={{
+            color: "var(--gold)",
+            fontFamily: "var(--font-ml)",
+            textShadow: "0 2px 12px rgba(201,150,42,0.25)",
+            transform: "translateZ(0)",
+            backfaceVisibility: "hidden"
+          }}
           aria-hidden
         >
           ॐ
@@ -70,7 +87,7 @@ export default function HeroSection() {
             {isMalayalam ? (
               <motion.h1
                 key="malayalam"
-                variants={textVariants as any}
+                variants={dynamicVariants as any}
                 initial="enter" animate="center" exit="exit"
                 className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-snug font-semibold cursor-pointer select-none px-2"
                 style={{
@@ -90,7 +107,7 @@ export default function HeroSection() {
             ) : (
               <motion.h1
                 key="english"
-                variants={textVariants as any}
+                variants={dynamicVariants as any}
                 initial="enter" animate="center" exit="exit"
                 className="absolute inset-0 flex items-center justify-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight font-light tracking-wide cursor-pointer select-none px-2"
                 style={{

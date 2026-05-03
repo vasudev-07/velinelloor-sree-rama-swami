@@ -78,6 +78,7 @@ export default function Navbar() {
             onClick={closeMenu}
             className="flex flex-col leading-none text-left"
             aria-label="Velinelloor Sree Rama Swami Temple — Home"
+            style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
           >
             <span
               className="text-lg md:text-xl font-light tracking-wide"

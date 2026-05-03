@@ -31,6 +31,8 @@ export default function Footer() {
             color: "var(--gold)",
             fontFamily: "var(--font-ml)",
             textShadow: "0 2px 16px rgba(201,150,42,0.30)",
+            transform: "translateZ(0)",
+            backfaceVisibility: "hidden"
           }}
           aria-hidden
         >

@@ -16,6 +16,7 @@ const cormorant = Cormorant_Garamond({
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
+  fallback: ["system-ui", "serif"],
 });
 
 const inter = Inter({
@@ -23,6 +24,7 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
   variable: "--font-sans",
   display: "swap",
+  fallback: ["system-ui", "sans-serif"],
 });
 
 const notoMalayalam = Noto_Sans_Malayalam({
@@ -30,6 +32,7 @@ const notoMalayalam = Noto_Sans_Malayalam({
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-ml",
   display: "swap",
+  fallback: ["system-ui", "sans-serif"],
 });
 
 /* ─── SEO Metadata ─────────────────────────────────────────────── */
@@ -59,7 +62,7 @@ export default function RootLayout({
       lang="en"
       className={`${cormorant.variable} ${inter.variable} ${notoMalayalam.variable}`}
     >
-      <body className="min-h-screen antialiased">
+      <body className="min-h-screen antialiased [text-rendering:optimizeLegibility]">
         <GoldenDustLoader />
         <RiverProgressLoader />
         {children}
