@@ -29,7 +29,7 @@ export default function FloatingWhatsApp() {
       // ── Slide-in from bottom on page load ──
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 1.2, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ delay: 1.2, duration: 0.55, ease: [0.22, 1, 0.36, 1] as any }}
       // ── Grow on hover ──
       whileHover={{ scale: 1.14 }}
       whileTap={{ scale: 0.94 }}

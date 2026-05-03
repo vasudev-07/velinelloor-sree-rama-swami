@@ -96,7 +96,7 @@ export default function ContactSection() {
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] as any, delay: 0.15 }}
           whileHover={{ y: -2, boxShadow: "0 20px 60px -12px rgba(90,50,20,0.18), 0 4px 16px rgba(90,50,20,0.06)" }}
           className="w-full flex flex-col items-center gap-6 rounded-2xl px-8 py-10"
           style={{

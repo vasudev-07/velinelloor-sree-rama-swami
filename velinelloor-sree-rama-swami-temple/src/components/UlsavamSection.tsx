@@ -91,7 +91,7 @@ function NoticeModal({
         initial={{ opacity: 0, scale: 0.93, y: 28 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 16 }}
-        transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] as any }}
         className="relative flex flex-col w-full max-w-xl sm:max-w-lg rounded-t-2xl sm:rounded-2xl overflow-hidden"
         style={{ boxShadow: "0 32px 80px -12px rgba(0,0,0,0.6)" }}
         onClick={(e) => e.stopPropagation()}
@@ -317,7 +317,7 @@ function NoticeCard({ day, label, imagePath, index, isHighlighted, onOpen }: {
       id={`notice-card-${day}`}
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: index * 0.05 }}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] as any, delay: index * 0.05 }}
       className="group flex flex-col w-full"
     >
       {/* ── Day badge row ── */}

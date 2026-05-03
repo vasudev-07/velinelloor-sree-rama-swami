@@ -105,7 +105,7 @@ export default function LocationSection() {
           <motion.div
             initial={{ opacity: 0, x: -28 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] as any, delay: 0.15 }}
             className="flex flex-col gap-8"
           >
             {/* Address card */}
@@ -202,7 +202,7 @@ export default function LocationSection() {
           <motion.div
             initial={{ opacity: 0, x: 28 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] as any, delay: 0.25 }}
             whileHover={{ scale: 1.015, boxShadow: "0 16px 56px -8px rgba(90,50,20,0.20), 0 4px 12px rgba(90,50,20,0.08)" }}
             className="w-full overflow-hidden"
             style={{
