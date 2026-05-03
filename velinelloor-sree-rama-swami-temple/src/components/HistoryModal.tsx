@@ -52,13 +52,13 @@ const SECTIONS = [
 ];
 
 // ── Animation variants ────────────────────────────────────────────
-const backdropVariants = {
+const backdropVariants: any = {
   hidden:  { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.3 } },
   exit:    { opacity: 0, transition: { duration: 0.25 } },
 };
 
-const panelVariants = {
+const panelVariants: any = {
   hidden:  { opacity: 0, scale: 0.95, y: 20 },
   visible: {
     opacity: 1, scale: 1, y: 0,
@@ -72,12 +72,12 @@ const panelVariants = {
   exit: { opacity: 0, scale: 0.97, y: 10, transition: { duration: 0.25, ease: "easeIn" } },
 };
 
-const sectionVariants = {
+const sectionVariants: any = {
   hidden:  { opacity: 0 },
   visible: { opacity: 1, transition: { staggerChildren: 0.13 } },
 };
 
-const paraVariants = {
+const paraVariants: any = {
   hidden:  { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as any } },
 };
