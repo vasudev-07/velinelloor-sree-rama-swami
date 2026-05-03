@@ -1,0 +1,54 @@
+/* ─── Tailwind v4 ──────────────────────────────────────────────── */
+@import "tailwindcss";
+
+/* ─── Design Tokens ────────────────────────────────────────────── */
+:root {
+  --cream:        #FAF7F2;
+  --cream-dark:   #F2EDE4;
+  --gold:         #C9962A;
+  --gold-light:   #E8B84B;
+  --saffron:      #E07B39;
+  --maroon:       #7B2230;
+  --maroon-dark:  #5C1A26;
+  --stone:        #8A8070;
+  --stone-light:  #C4BBB0;
+  --ink:          #1A1410;
+}
+
+/* ─── Base Reset ───────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--ink);
+  line-height: 1.75;
+  letter-spacing: 0.005em;
+}
+
+/* ─── Selection highlight ─────────────────────────────────────── */
+::selection {
+  background: rgba(201, 150, 42, 0.20);
+  color: var(--maroon);
+}
+
+/* ─── Scrollbar (hidden — replaced by River Scroll Progress) ───── */
+html                    { scrollbar-width: none; }   /* Firefox */
+body::-webkit-scrollbar { display: none; }           /* Chrome / Safari / Edge */
+
+/* ─── Golden scrollbar (modal) ─────────────────────────────── */
+.golden-scroll::-webkit-scrollbar        { width: 4px; }
+.golden-scroll::-webkit-scrollbar-track  { background: rgba(255,255,255,0.04); border-radius: 4px; }
+.golden-scroll::-webkit-scrollbar-thumb  { background: rgba(212,160,23,0.50); border-radius: 4px; }
+.golden-scroll::-webkit-scrollbar-thumb:hover { background: rgba(212,160,23,0.85); }
